@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from "react";
+import Map from "./components/Map";
 import './App.css';
 
 function App() {
+  const [home, setHome] = useState([-37.81061, 144.954386]);
+
+  const handleHomeClick = (e) => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (location) {
+        console.log("location", location.coords);
+        setHome([location.coords.latitude, location.coords.longitude]);
+      });
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div class="App-header">
+        <h2>5km or NOPE</h2>
+      </div>
+      <Map home={home} />
+      <button className="btn" onClick={handleHomeClick}>
+        Can I pleeeaaaaasssse?
+      </button>
     </div>
   );
 }
