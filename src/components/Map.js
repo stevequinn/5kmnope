@@ -7,18 +7,37 @@ import { Map, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import { destinationPoint } from "../utils/geo";
 
 const nopeUrl = "nope.jpg";
+const northfaceUrl = "northface.png";
 
 const iconDan = new L.Icon({
   iconUrl: nopeUrl,
   iconRetinaUrl: nopeUrl,
   iconAnchor: null,
-  popupAnchor: null,
+  popupAnchor: [0, -40],
   shadowUrl: null,
   shadowSize: null,
   shadowAnchor: null,
-  iconSize: new L.Point(80, 105),
+  iconSize: new L.Point(65, 85),
   className: "leaflet-div-icon",
 });
+
+const iconNorthface = new L.Icon({
+  iconUrl: northfaceUrl,
+  iconRetinaUrl: northfaceUrl,
+  iconAnchor: null,
+  popupAnchor: [0, -20],
+  shadowUrl: null,
+  shadowSize: null,
+  shadowAnchor: null,
+  iconSize: new L.Point(40, 40),
+  className: "leaflet-div-icon",
+});
+
+const northfacePoints = [
+  [-37.82491, 144.949317],
+  [-37.814895, 144.963516],
+  [-37.885037, 145.083173],
+];
 
 const YepNopeMap = ({ home = null }) => {
   const zoom = 12;
@@ -65,13 +84,23 @@ const YepNopeMap = ({ home = null }) => {
         <div>
           <Circle center={home} radius={radius} />
           <Marker position={home}>
-            <Popup>No getting on the beers with ya mates</Popup>
+            <Popup>
+              Only four reasons to leave home. Just don't ask what they are.
+            </Popup>
           </Marker>
         </div>
       )}
 
       {nopePoints.map((p) => (
-        <Marker position={p} icon={iconDan} />
+        <Marker position={p} icon={iconDan}>
+          <Popup>No getting on the beers with ya mates</Popup>
+        </Marker>
+      ))}
+
+      {northfacePoints.map((p) => (
+        <Marker position={p} icon={iconNorthface}>
+          <Popup>It's called "smart casual"</Popup>
+        </Marker>
       ))}
 
       {/* <ImageOverlay
