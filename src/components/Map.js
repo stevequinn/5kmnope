@@ -1,10 +1,11 @@
 //
 // File: src/components/Map.js
 //
-import React from "react";
+import React, { useState } from "react";
 import L from "leaflet";
 import { Map, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import { destinationPoint } from "../utils/geo";
+import LocateControl from "./LocateControl";
 
 const nopeUrl = "nope.jpg";
 const northfaceUrl = "northface.png";
@@ -39,19 +40,22 @@ const northfacePoints = [
   [-37.885037, 145.083173],
 ];
 
-const YepNopeMap = ({ home = null }) => {
-  const zoom = 12;
+const locateOptions = {
+  position: "topleft",
+  keepCurrentZoomLevel: true,
+  flyTo: true,
+  drawCircle: false,
+  strings: {
+    title: "C'mon Danny Boi, where can I go?",
+    popup: "Only four reasons to leave home. Just don't ask what they are.",
+  },
+};
 
+const YepNopeMap = ({ initialLocation = null }) => {
+  const [home, setHome] = useState(initialLocation);
   const radius = 5 * 10 * 10 * 10; // 5km
-
-  // const [yeps, setYeps] = useState([]);
-  // const [nopes, setNopes] = useState([]);
-
-  // const topLeftCourner = [-37.793586, 144.996614];
-  // const bottomRightCourner = [-37.833996, 145.063115];
-  // const destPoint = destinationPoint(home, 90, 5.6);
-
   const fromHome = 6.5;
+  const zoom = 12;
   let nopePoints = [];
 
   if (home) {
@@ -70,8 +74,18 @@ const YepNopeMap = ({ home = null }) => {
     ];
   }
 
+  const handleLocationFound = (e) => {
+    // console.log("locationGFound", e);
+    setHome([e.latitude, e.longitude]);
+  };
+
   return (
-    <Map center={home} zoom={zoom} style={{ height: "calc(100vh - 60px)" }}>
+    <Map
+      onLocationFound={handleLocationFound}
+      center={home}
+      zoom={zoom}
+      style={{ height: "100vh" }}
+    >
       <TileLayer
         attribution='Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>'
         url="https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}"
@@ -80,34 +94,21 @@ const YepNopeMap = ({ home = null }) => {
         maxZoom={18}
       />
 
-      {home && (
-        <div>
-          <Circle center={home} radius={radius} />
-          <Marker position={home}>
-            <Popup>
-              Only four reasons to leave home. Just don't ask what they are.
-            </Popup>
-          </Marker>
-        </div>
-      )}
+      <LocateControl options={locateOptions} />
 
-      {nopePoints.map((p) => (
-        <Marker position={p} icon={iconDan}>
+      {home && <Circle center={home} radius={radius} />}
+
+      {nopePoints.map((p, i) => (
+        <Marker key={i} position={p} icon={iconDan}>
           <Popup>No getting on the beers with ya mates</Popup>
         </Marker>
       ))}
 
-      {northfacePoints.map((p) => (
-        <Marker position={p} icon={iconNorthface}>
+      {northfacePoints.map((p, i) => (
+        <Marker key={i} position={p} icon={iconNorthface}>
           <Popup>It's called "smart casual"</Popup>
         </Marker>
       ))}
-
-      {/* <ImageOverlay
-        bounds={[topLeftCourner, bottomRightCourner]}
-        url={nopeUrl}
-        opacity={0.8}
-      ></ImageOverlay> */}
     </Map>
   );
 };
