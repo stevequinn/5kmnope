@@ -76,7 +76,7 @@ const YepNopeMap = ({ initialLocation = null }) => {
 
   const handleLocationFound = (e) => {
     // console.log("locationGFound", e);
-    if (!home || home[0] !== e.latitude || home[1] !== e.longitude) {
+    if (!home) {
       setHome([e.latitude, e.longitude]);
     }
   };
