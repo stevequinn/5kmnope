@@ -44,7 +44,7 @@ const locateOptions = {
   position: "topleft",
   keepCurrentZoomLevel: true,
   flyTo: true,
-  drawCircle: false,
+  // drawCircle: false,
   strings: {
     title: "C'mon Danny Boi, where can I go?",
     popup: "Only four reasons to leave home. Just don't ask what they are.",
@@ -76,7 +76,9 @@ const YepNopeMap = ({ initialLocation = null }) => {
 
   const handleLocationFound = (e) => {
     // console.log("locationGFound", e);
-    setHome([e.latitude, e.longitude]);
+    if (!home || home[0] !== e.latitude || home[1] !== e.longitude) {
+      setHome([e.latitude, e.longitude]);
+    }
   };
 
   return (
@@ -96,7 +98,7 @@ const YepNopeMap = ({ initialLocation = null }) => {
 
       <LocateControl options={locateOptions} />
 
-      {home && <Circle center={home} radius={radius} />}
+      {home && <Circle center={home} radius={radius} color="grey" />}
 
       {nopePoints.map((p, i) => (
         <Marker key={i} position={p} icon={iconDan}>
