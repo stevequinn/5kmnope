@@ -52,7 +52,7 @@ const locateOptions = {
 };
 
 const YepNopeMap = ({ initialLocation = null }) => {
-  const [home, setHome] = useState(initialLocation);
+  const [home, setHome] = useState(null);
   const radius = 5 * 10 * 10 * 10; // 5km
   const fromHome = 6.5;
   const zoom = 12;
@@ -84,7 +84,7 @@ const YepNopeMap = ({ initialLocation = null }) => {
   return (
     <Map
       onLocationFound={handleLocationFound}
-      center={home}
+      center={home || initialLocation}
       zoom={zoom}
       style={{ height: "100vh" }}
     >
