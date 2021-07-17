@@ -11,6 +11,7 @@ function App() {
         <h2>
           5km or <span className="underline">NOPE</span>
         </h2>
+        <h3>...and Sandwiches</h3>
       </div>
       <Map initialLocation={initialLocation} />
     </div>

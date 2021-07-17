@@ -18,3 +18,9 @@ h2 {
   text-decoration: underline;
   color: #ff0000;
 }
+
+.leaflet-div-icon {
+  background: transparent;
+  /* border: 1px solid #666; */
+  border: none;
+}
