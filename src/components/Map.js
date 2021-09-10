@@ -10,6 +10,7 @@ import LocateControl from "./LocateControl";
 const nopeUrl = "nope.jpg";
 const northfaceUrl = "northface.png";
 const sandwichIconUrl = "sandwich.png";
+const bagelIconUrl = "bagel.png";
 
 const iconDan = new L.Icon({
     iconUrl: nopeUrl,
@@ -43,7 +44,19 @@ const iconSandwich = new L.Icon({
     shadowUrl: null,
     shadowSize: null,
     shadowAnchor: null,
-    iconSize: new L.Point(50, 50),
+    iconSize: new L.Point(35, 35),
+    className: "leaflet-div-icon",
+});
+
+const iconBagel = new L.Icon({
+    iconUrl: bagelIconUrl,
+    iconRetinaUrl: bagelIconUrl,
+    iconAnchor: null,
+    popupAnchor: [0, -20],
+    shadowUrl: null,
+    shadowSize: null,
+    shadowAnchor: null,
+    iconSize: new L.Point(35, 35),
     className: "leaflet-div-icon",
 });
 
@@ -67,19 +80,35 @@ const points = [
         position: [-37.799995298800965, 144.99559581361126],
         icon: iconSandwich,
         title: "Kelso's Sandwich Shoppe",
-        description: "Vic Park munchies",
+        description: "Pickle Rick Vic Park munchies",
+        href: "http://www.kelsossandwiches.com/"
     },
     {
         position: [-37.81351762529069, 145.00468061534366],
         icon: iconSandwich,
         title: "Hector's Deli",
         description: "For that post lunch snooze feelz",
+        href: "https://www.hectorsdeli.com.au/"
     },
     {
         position: [-37.797579081635845, 144.9847067271033],
         icon: iconSandwich,
         title: "Slamwich",
-        description: "Slam it down fast with a solo",
+        description: "One day, you will be open. One day.",
+    },
+    {
+        position: [-37.79666617330969, 144.97903595541453],
+        icon: iconSandwich,
+        title: "Nico's Sandwich Deli",
+        description: "The orig",
+        href: "https://www.nicos.melbourne/"
+    },
+    {
+        position: [-37.817603758389346, 144.99349462473182],
+        icon: iconBagel,
+        title: "Bissel B.",
+        description: "Bissel's the Best, Bub",
+        href: "https://www.bisselbbagels.com.au/"
     },
 ];
 
@@ -90,7 +119,7 @@ const locateOptions = {
     // drawCircle: false,
     strings: {
         title: "C'mon Danny Boi, where can I go?",
-        popup: "Only four reasons to leave home. Just don't ask what they are.",
+        popup: "Only five reasons to leave home. Just don't ask what they are.",
     },
 };
 
@@ -143,12 +172,14 @@ const YepNopeMap = ({ initialLocation = null }) => {
 
             {home && <Circle center={home} radius={radius} color="grey" />}
 
-            {points.map(({ position, icon, title, description }, i) => (
+            {points.map(({ position, icon, title, description, href }, i) => (
                 <Marker key={i} position={position} icon={icon}>
                     <Popup>
                         {title && <h3>{title}</h3>}
 
-                        {description && <div>{description}</div>}
+                        {description && <p>{description}</p>}
+
+                        {href && <p><a href={href} title={title} target="_blank">{href}</a></p>}
                     </Popup>
                 </Marker>
             ))}
