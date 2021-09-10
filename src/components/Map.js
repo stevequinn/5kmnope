@@ -10,7 +10,7 @@ import LocateControl from "./LocateControl";
 const nopeUrl = "nope.jpg";
 const northfaceUrl = "northface.png";
 const sandwichIconUrl = "sandwich.png";
-const bagelIconUrl = "bagel.png";
+const bagelIconUrl = "Bagel.png";
 
 const iconDan = new L.Icon({
     iconUrl: nopeUrl,
